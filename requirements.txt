@@ -10,3 +10,4 @@ unstructured
 langchain
 chromadb
 tiktoken
+sqlite3 >= 3.35.0
