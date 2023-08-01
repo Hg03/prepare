@@ -80,9 +80,9 @@ def placement_bot():
     api_key = st.text_input('Enter your API Key',type='password')
     if api_key:
         persist_directory = 'chromadb'
-        embedding = OpenAIEmbeddings(openai_api_key = openai_api_key)
+        embedding = OpenAIEmbeddings(openai_api_key = api_key)
         vectordb = Chroma(persist_directory=persist_directory, embedding_function=embedding)
-        qa = VectorDBQA.from_chain_type(llm=OpenAI(openai_api_key = openai_api_key), chain_type="stuff", vectorstore=vectordb)
+        qa = VectorDBQA.from_chain_type(llm=OpenAI(openai_api_key = api_key), chain_type="stuff", vectorstore=vectordb)
     
     query = st.text_area('Enter your query')
     if st.button('Ask the Bot'):
