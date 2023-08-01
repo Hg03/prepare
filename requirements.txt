@@ -9,4 +9,4 @@ unstructured
 langchain
 chromadb
 tiktoken
-sqlite3
+pysqlite
