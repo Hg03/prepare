@@ -1,0 +1,12 @@
+streamlit
+scikit-learn==1.2.2
+pandas
+streamlit-extras
+markdownlit
+pinecone-client
+sentence-transformers
+openai
+unstructured
+langchain
+chromadb
+tiktoken
