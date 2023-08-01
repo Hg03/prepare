@@ -75,13 +75,14 @@ def campus_recruitment():
                 mdlit("### Sorry, But it's just a beginning ,you are [red]not placed[/red]")
 
 def placement_bot():
-    persist_directory = 'chromadb'
-    embedding = OpenAIEmbeddings(openai_api_key = st.secrets['openai_api_key'])
-    vectordb = Chroma(persist_directory=persist_directory, embedding_function=embedding)
-    qa = VectorDBQA.from_chain_type(llm=OpenAI(st.secrets['openai_api_key']), chain_type="stuff", vectorstore=vectordb)
-    
     st.title('Placement Bot')
     st.info('For now, TCS, Cognizant, Tech Mahindra, Cisco')
+    api_key = st.text_input('Enter your API Key',type='password')
+    if api_key:
+        persist_directory = 'chromadb'
+        embedding = OpenAIEmbeddings(openai_api_key = openai_api_key)
+        vectordb = Chroma(persist_directory=persist_directory, embedding_function=embedding)
+        qa = VectorDBQA.from_chain_type(llm=OpenAI(openai_api_key = openai_api_key), chain_type="stuff", vectorstore=vectordb)
     
     query = st.text_area('Enter your query')
     if st.button('Ask the Bot'):
