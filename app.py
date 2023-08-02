@@ -11,6 +11,7 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.llms import OpenAI
 from langchain.chains import RetrievalQA, VectorDBQA
+from langchain.memory import ConversationBufferMemory
 import joblib
 st.set_page_config(page_title='Placement',layout='wide',page_icon='boat')
 
@@ -81,11 +82,12 @@ def placement_bot():
     st.title('Placement Bot')
     st.info('For now, TCS, Cognizant, Tech Mahindra, Cisco')
     persist_directory = 'chromadb'
+    memory = ConversationBufferMemory()
     openai_api_key = st.sidebar.text_input('Enter your API key',type='password')
     if openai_api_key:
         embedding = OpenAIEmbeddings(openai_api_key = openai_api_key)
         vectordb = Chroma(persist_directory=persist_directory, embedding_function=embedding)
-        qa = VectorDBQA.from_chain_type(llm=OpenAI(openai_api_key = openai_api_key), chain_type="stuff", vectorstore=vectordb)
+        qa = VectorDBQA.from_chain_type(llm=OpenAI(openai_api_key = openai_api_key), chain_type="stuff", vectorstore=vectordb,memory=memory)
         
         
         
