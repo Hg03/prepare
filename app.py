@@ -12,7 +12,7 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.llms import OpenAI
 from langchain.chains import RetrievalQA, VectorDBQA
 import joblib
-st.set_page_config(page_title='Placement',layout='wide')
+st.set_page_config(page_title='Placement',layout='wide',page_icon='boat')
 
 
 
