@@ -80,17 +80,38 @@ def campus_recruitment():
 def placement_bot():
     st.title('Placement Bot')
     st.info('For now, TCS, Cognizant, Tech Mahindra, Cisco')
-    api_key = st.text_input('Enter your API Key',type='password')
-    if api_key:
-        persist_directory = 'chromadb'
-        embedding = OpenAIEmbeddings(openai_api_key = api_key)
+    persist_directory = 'chromadb'
+    openai_api_key = st.sidebar.text_input('Enter your API key',type='password')
+    if openai_api_key:
+        embedding = OpenAIEmbeddings(openai_api_key = openai_api_key)
         vectordb = Chroma(persist_directory=persist_directory, embedding_function=embedding)
-        qa = VectorDBQA.from_chain_type(llm=OpenAI(openai_api_key = api_key), chain_type="stuff", vectorstore=vectordb)
-    
-    query = st.text_area('Enter your query')
-    if st.button('Ask the Bot'):
-        response = qa.run(query)
-        st.code(response)
+        qa = VectorDBQA.from_chain_type(llm=OpenAI(openai_api_key = openai_api_key), chain_type="stuff", vectorstore=vectordb)
+        
+        
+        
+        if "messages" not in st.session_state:
+            st.session_state.messages = []
+            
+        for message in st.session_state.messages:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
+        
+        if prompt := st.chat_input("Ask your query"):
+            st.session_state.messages.append({"role":"user","content":prompt})
+            with st.chat_message("user"):
+                st.markdown(prompt)
+            with st.chat_message("assistant"):
+                message_placeholder = st.empty()
+                full_response = ""
+                response = qa.run(prompt)
+                message_placeholder.markdown(response)
+            st.session_state.messages.append({"role":"assistant","content":response})  
+    else:
+        st.warning('Enter your OpenAI API Key through sidebar')  
+    # query = st.text_area('Enter your query')
+    # if st.button('Ask the Bot'):
+    #     response = qa.run(query)
+    #     st.code(response)
 
 def main():
     two_opt = st.sidebar.selectbox('Select upon two projects',['Campus Recruitment Prediction','Placement Bot'])
@@ -100,5 +121,7 @@ def main():
         placement_bot()
         
 main()
+                
+        
                 
         
