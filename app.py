@@ -95,14 +95,14 @@ def placement_bot():
             st.session_state.messages = []
             
         for message in st.session_state.messages:
-            with st.chat_message(message["role"]):
+            with st.chat_message(message["role"],avatar="👾"):
                 st.markdown(message["content"])
         
-        if prompt := st.chat_input("Ask your query"):
+        if prompt := st.chat_input("Ask your query",role="🌕"):
             st.session_state.messages.append({"role":"user","content":prompt})
-            with st.chat_message("user"):
+            with st.chat_message("user",role="👾"):
                 st.markdown(prompt)
-            with st.chat_message("assistant"):
+            with st.chat_message("assistant",role="🤖"):
                 message_placeholder = st.empty()
                 full_response = ""
                 response = qa.run(prompt)
